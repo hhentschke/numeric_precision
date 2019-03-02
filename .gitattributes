@@ -1,0 +1,5 @@
+*.py            text
+*.png		binary
+
+# Make GitHub understand that this is Python
+*.py linguist-language=Python
