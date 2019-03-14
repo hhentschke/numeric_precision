@@ -1,11 +1,17 @@
 # ---------------- project-specific settings -----------------------------------
+# nomen est omen
+not_for_distribution/
+
 # don't save models because they are too large
 models/*.hdf5
 
 # same for data
 data/cats*
 
-# reports/ contains figures and tensorboard logs; we don't need either
+# don't save train_params.csv because this is just a temporary utility file
+train_params.csv
+
+# we don't need either tensorboard logs or figures
 reports/logs/
 reports/figures/
 

@@ -151,9 +151,9 @@ def main(paramfile_in):
         trained_model_fn = os.path.join(model_dir, model_name + trained_model_fn_string + time_str + ".hdf5")
         cur_callbacks = [
              callbacks.EarlyStopping(
-                monitor="loss",
+                monitor="val_loss",
                 min_delta=0,
-                patience=15, verbose=1,
+                patience=10, verbose=1,
                 mode="auto",
                 baseline=None
              )
