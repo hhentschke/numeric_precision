@@ -24,7 +24,7 @@ import click
 import sys, time, os
 import pandas as pd
 import numpy as np
-from keras import optimizers, callbacks
+from tensorflow.keras import optimizers, callbacks
 from src.models.setup_models import convnet_01, flex_base
 # collection of metrics
 from src.models.metrics_for_keras import bce_from_raw, raw_values, sigmoids, \
@@ -140,7 +140,7 @@ def main(paramfile_in):
         
         # compile
         model.compile(
-                optimizer=optimizers.Adam(),
+                optimizer=optimizers.RMSprop(lr=0.0001),
                 loss=loss,
                 loss_weights=loss_weights,
                 metrics=metrics
@@ -153,7 +153,7 @@ def main(paramfile_in):
              callbacks.EarlyStopping(
                 monitor="val_loss",
                 min_delta=0,
-                patience=10, verbose=1,
+                patience=15, verbose=1,
                 mode="auto",
                 baseline=None
              )

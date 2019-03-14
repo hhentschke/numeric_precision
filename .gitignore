@@ -2,14 +2,14 @@
 # nomen est omen
 not_for_distribution/
 
-# don't save models because they are too large
+# omit models because they are too large
 models/*.hdf5
 
 # same for data
 data/cats*
 
-# don't save train_params.csv because this is just a temporary utility file
-train_params.csv
+# omit train_params.csv because this is just a temporary utility file
+models/train_params.csv
 
 # we don't need either tensorboard logs or figures
 reports/logs/

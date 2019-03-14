@@ -5,10 +5,9 @@ Code file for network models. Each function should return not only the model
 itself but also a name of the model composed of the crucial parameter choices
 (for subsequent saving).
 """
-
-from keras import models, layers
-from keras.applications import VGG16
-from keras.applications.inception_v3 import InceptionV3
+from tensorflow.keras import models, layers
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.applications.inception_v3 import InceptionV3
 
 
 def convnet_01(input_shape):
