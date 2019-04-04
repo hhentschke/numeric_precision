@@ -6,7 +6,7 @@ A collection of deep learning 'metrics' for Keras with tensorflow backend.
 @author: hh
 """
 
-import keras.backend as K
+import tensorflow.keras.backend as K
 import tensorflow as tf
 
 def contorted_binary_crossentropy(target, output, from_raw=True):
@@ -35,7 +35,7 @@ def contorted_binary_crossentropy(target, output, from_raw=True):
         # transform back to raw
         _epsilon = tf.convert_to_tensor(K.epsilon(), output.dtype.base_dtype)
         output = tf.clip_by_value(output, _epsilon, 1 - _epsilon)
-        output = tf.log(output / (1 - output))
+        output = tf.math.log(output / (1 - output))
 
     return tf.nn.sigmoid_cross_entropy_with_logits(labels=target,
                                                    logits=output)

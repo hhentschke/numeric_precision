@@ -4,7 +4,7 @@ Evaluation of cats vs dogs model(s)
 """
 import numpy as np
 import sys
-from keras import models
+from tensorflow.keras import models
 # collection of metrics
 sys.path.append("/mnt/hd_internal/hh/projects_DS/numeric_precision/")
 

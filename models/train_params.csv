@@ -1,2 +1,2 @@
 ,model_type,model_weights,model_name,batch_size,num_epochs,do_img_augment,loss_basis,do_tensorboard,save_model
-0,InceptionV3,None,undefined,16,50,True,raw,True,None
+0,InceptionV3,None,undefined,16,50,True,raw,False,None
