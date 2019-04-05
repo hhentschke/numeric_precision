@@ -6,7 +6,7 @@ Created on Fri Feb  1 12:40:41 2019
 @author: hh
 """
 import sys
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator
 # collection of metrics
 sys.path.append("/mnt/hd_internal/hh/projects_DS/numeric_precision/")
 

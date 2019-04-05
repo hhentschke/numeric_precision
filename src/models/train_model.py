@@ -24,7 +24,7 @@ import click
 import sys, time, os
 import pandas as pd
 import numpy as np
-from tensorflow.keras import optimizers, callbacks
+from keras import optimizers, callbacks
 from src.models.setup_models import convnet_01, flex_base
 # collection of metrics
 from src.models.metrics_for_keras import bce_from_raw, raw_values, sigmoids, \
@@ -153,9 +153,11 @@ def main(paramfile_in):
              callbacks.EarlyStopping(
                 monitor="val_loss",
                 min_delta=0,
-                patience=15, verbose=1,
+                patience=15, 
+                verbose=1,
                 mode="auto",
-                baseline=None
+                baseline=None,
+                restore_best_weights=True # works in Keras and in tf.keras 2.0, but not tf.keras 1.x
              )
         ]
 
@@ -163,6 +165,8 @@ def main(paramfile_in):
             cur_callbacks.append(
                callbacks.TensorBoard(
                    log_dir=os.path.join(log_dir, time_str),
+                   write_images=True, # unclear yet what this does
+                   update_freq='epoch', # works in Keras and in tf.keras 2.0, but not tf.keras 1.x
                    # histogram_freq=1, # unfortunately, we cannot have histograms when data generators are used
                )
             )

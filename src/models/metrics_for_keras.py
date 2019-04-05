@@ -6,7 +6,7 @@ A collection of deep learning 'metrics' for Keras with tensorflow backend.
 @author: hh
 """
 
-import tensorflow.keras.backend as K
+import keras.backend as K
 import tensorflow as tf
 
 def contorted_binary_crossentropy(target, output, from_raw=True):
