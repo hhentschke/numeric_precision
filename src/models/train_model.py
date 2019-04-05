@@ -16,7 +16,6 @@ A few points worth mentioning:
 """
 # to do: 
 
-# - relative paths
 # - automatic detection of number of images
 
 import click
@@ -25,11 +24,15 @@ import sys, time, os
 import pandas as pd
 import numpy as np
 from keras import optimizers, callbacks
+# models
 from src.models.setup_models import convnet_01, flex_base
+# learning rate schedule
+from src.models.training_utilities import lr_schedule
 # collection of metrics
 from src.models.metrics_for_keras import bce_from_raw, raw_values, sigmoids, \
     contorted_binary_crossentropy, binary_accuracy_from_raw
-from src.models.data_gen import get_ImageDataGenerator
+from src.models.data_generators import get_ImageDataGenerator
+
 
 sys.path.append("/mnt/hd_internal/hh/projects_DS/numeric_precision/")
 
@@ -140,7 +143,7 @@ def main(paramfile_in):
         
         # compile
         model.compile(
-                optimizer=optimizers.RMSprop(lr=0.0001),
+                optimizer=optimizers.RMSprop(lr=0.001),
                 loss=loss,
                 loss_weights=loss_weights,
                 metrics=metrics
@@ -161,6 +164,10 @@ def main(paramfile_in):
              )
         ]
 
+        cur_callbacks.append(
+                callbacks.LearningRateScheduler(lr_schedule, verbose=1)
+                )
+        
         if do_tensorboard:
             cur_callbacks.append(
                callbacks.TensorBoard(

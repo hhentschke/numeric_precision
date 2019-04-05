@@ -1,2 +1,2 @@
-,model_type,model_weights,model_name,batch_size,num_epochs,do_img_augment,loss_basis,do_tensorboard,save_model
-0,VGG16,None,undefined,16,50,True,raw,True,None
+,model_type,model_weights,model_name,batch_size,num_epochs,do_img_augment,optimizer,learn_rate,lr_schedule,loss_basis,do_tensorboard,save_model
+0,convnet_01,None,undefined,40,50,True,RMSprop,0.001,step_decay,raw,True,None
