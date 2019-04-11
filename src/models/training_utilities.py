@@ -6,27 +6,27 @@ Created on Fri Apr  5 16:48:29 2019
 @author: hh
 """
 
-def lr_schedule(epoch_ix, lr, mode='step_decay'):
+def step_decay(epoch_ix, lr, step_size=10, decay_factor=0.5):
     """
-    Defines learning rate schedule, to be used in keras.Callbacks.LearningRateScheduler.
+    Defines 'step_decay'-type learning rate schedule, to be used in 
+    keras.Callbacks.LearningRateScheduler.
     Input
-        epoch_ix - index of epoch
-        lr - current learning rate
-        mode - 'step_decay'
+        epoch_ix: index of epoch
+        lr: current learning rate
+        step_size: positive interger, number of episodes after which learning rate will adapt
+        decay_factor: factor by which lr will be multiplied
     Returns
         learning rate as a function of lr and epoch_ix
-    -- Work in progress --
     """
-    assert(mode in ["step_decay"])
-    
-    if mode is "step_decay":
-        # step size (number of episodes)
-        step_size = 10
-        # factor by which to multiply learning rate after each step
-        decay_factor = 0.75
-        if ((epoch_ix > 0) and ((epoch_ix % step_size) == 0)):
-            lr = lr * decay_factor
-        
+    if ((epoch_ix > 0) and ((epoch_ix % step_size) == 0)):
+        lr = lr * decay_factor
     return lr
 
+def lr_schedule_selector(mode="constant"):
+    mode_dict = {
+            "constant": lambda epoch_ix, lr: lr,
+            "step_decay": step_decay}
+    return mode_dict[mode]
+    
+# for further inspiration, look here:
 # https://towardsdatascience.com/learning-rate-schedules-and-adaptive-learning-rate-methods-for-deep-learning-2c8f433990d1

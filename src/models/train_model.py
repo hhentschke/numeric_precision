@@ -27,7 +27,7 @@ from keras import optimizers, callbacks
 # models
 from src.models.setup_models import convnet_01, flex_base
 # learning rate schedule
-from src.models.training_utilities import lr_schedule
+from src.models.training_utilities import lr_schedule_selector
 # collection of metrics
 from src.models.metrics_for_keras import bce_from_raw, raw_values, sigmoids, \
     contorted_binary_crossentropy, binary_accuracy_from_raw
@@ -82,6 +82,17 @@ def main(paramfile_in):
         batch_size = parameters_train.loc[episode_ix, "batch_size"]
         num_epochs = parameters_train.loc[episode_ix, "num_epochs"]
         do_img_augment = parameters_train.loc[episode_ix, "do_img_augment"]
+        optimizer_string = parameters_train.loc[episode_ix, "optimizer"]
+        lr = parameters_train.loc[episode_ix, "learn_rate"]
+        if ((lr <= 0) or (lr > 1)):
+            print("learning rate must be strictly positive and below 1 - setting to 0.001")
+            lr = 0.001
+        # now convert string to function (handle)
+        optimizer = getattr(optimizers, optimizer_string)
+        optimizer = optimizer(lr=lr)
+        lr_schedule_mode = parameters_train.loc[episode_ix, "lr_schedule"]
+        lr_schedule = lr_schedule_selector(lr_schedule_mode)
+    
         # this parameter decides which of the two combinations of last layer activation 
         # and implementation of loss function shall be used for training; must be either
         # "raw" or "sigmoid"
@@ -143,7 +154,7 @@ def main(paramfile_in):
         
         # compile
         model.compile(
-                optimizer=optimizers.RMSprop(lr=0.001),
+                optimizer=optimizer,
                 loss=loss,
                 loss_weights=loss_weights,
                 metrics=metrics
@@ -163,11 +174,9 @@ def main(paramfile_in):
                 restore_best_weights=True # works in Keras and in tf.keras 2.0, but not tf.keras 1.x
              )
         ]
-
         cur_callbacks.append(
                 callbacks.LearningRateScheduler(lr_schedule, verbose=1)
                 )
-        
         if do_tensorboard:
             cur_callbacks.append(
                callbacks.TensorBoard(
